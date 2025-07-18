@@ -7,8 +7,24 @@ const materialRoutes = require('./routes/materialRoutes');
 const app = express();
 const cors = require('cors');
 
+// app.use(cors({
+//   origin: process.env.CLIENT_ORIGIN, // 👈 your React dev server port
+//   credentials: true
+// }));
+const allowedOrigins = [
+  process.env.CLIENT_ORIGIN,
+  process.env.CLIENT_ORIGIN_D
+];
+
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN, // 👈 your React dev server port
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // allow REST clients like Postman
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
