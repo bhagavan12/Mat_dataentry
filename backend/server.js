@@ -8,7 +8,7 @@ const app = express();
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'http://localhost:8080', // 👈 your React dev server port
+  origin: process.env.CLIENT_ORIGIN, // 👈 your React dev server port
   credentials: true
 }));
 app.use(express.json());
