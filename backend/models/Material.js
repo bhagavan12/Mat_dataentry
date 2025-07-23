@@ -18,6 +18,11 @@ const mongoose = require('mongoose');
 
 const materialSchema = new mongoose.Schema({
   shift: { type: String, required: true },
+  furnaceSize: { 
+    type: String, 
+    enum: ['big', 'small'], 
+    required: true 
+  },
   employee: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employee',
@@ -32,7 +37,8 @@ const materialSchema = new mongoose.Schema({
       weightPerItem: { type: Number, required: true }
     }
   ],
-  totalWeight: { type: Number, required: true }
+  totalWeight: { type: Number, required: true },
+  outputStatus: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('Material', materialSchema);

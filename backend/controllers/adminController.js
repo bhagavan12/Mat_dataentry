@@ -3,18 +3,7 @@ const Material = require('../models/Material');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Employee = require('../models/Employee');
-// exports.login = async (req, res) => {
-//   const { username, password } = req.body;
-//   const admin = await Admin.findOne({ username });
-
-//   if (!admin) return res.status(401).json({ message: 'Invalid credentials' });
-
-//   const isMatch = await bcrypt.compare(password, admin.password);
-//   if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
-
-//   const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-//   res.json({ token });
-// };
+const Discharge = require('../models/Discharge');
 exports.login = async (req, res) => {
   const { usernameOrEmail, password } = req.body;
 
@@ -55,6 +44,7 @@ exports.signup = async (req, res) => {
 };
 exports.getAllMaterials = async (req, res) => {
   const materials = await Material.find().populate('employee', 'name');
+  console.log("materials",materials);
   res.json(materials);
 };
 
@@ -102,4 +92,17 @@ exports.deleteEmployee = async (req, res) => {
   const { id } = req.params;
   await Employee.findByIdAndDelete(id);
   res.json({ message: 'Deleted' });
+};
+
+exports.getAllDischarges = async (req, res) => {
+  try {
+    const discharges = await Discharge.find()
+      .populate('employee', 'name')
+      .populate('materialEntry', 'totalWeight timestamp materials');
+      console.log(discharges)
+    res.json(discharges);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to get discharges' });
+  }
 };

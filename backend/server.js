@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const adminRoutes = require('./routes/adminRoutes');
 const materialRoutes = require('./routes/materialRoutes');
-
+const dischargeRoutes = require('./routes/dischargeRoutes');
 const app = express();
 const cors = require('cors');
 
@@ -35,6 +35,6 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use('/api/admin', adminRoutes);
 app.use('/api/materials', materialRoutes);
-
+app.use('/api/discharge', dischargeRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
