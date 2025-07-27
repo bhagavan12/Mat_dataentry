@@ -21,5 +21,8 @@ router.put('/employees/:id', auth, adminController.updateEmployee);
 router.delete('/employees/:id', auth, adminController.deleteEmployee);
 
 router.get('/discharges', auth,adminController.getAllDischarges);
+// Change password API
+router.post('/change-password',adminController.changePassword);
 
+module.exports = router;
 module.exports = router;

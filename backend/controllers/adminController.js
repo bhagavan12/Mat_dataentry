@@ -106,3 +106,26 @@ exports.getAllDischarges = async (req, res) => {
     res.status(500).json({ message: 'Failed to get discharges' });
   }
 };
+
+// Change password API
+exports.changePassword= async (req, res) => {
+  const { email, oldPassword, newPassword } = req.body;
+
+  try {
+    const admin = await Admin.findOne({ email });
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    const isMatch = await bcrypt.compare(oldPassword, admin.password);
+    if (!isMatch) return res.status(401).json({ message: "Old password incorrect" });
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    admin.password = hashedPassword;
+    await admin.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+}
