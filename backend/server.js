@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const adminRoutes = require('./routes/adminRoutes');
 const materialRoutes = require('./routes/materialRoutes');
 const dischargeRoutes = require('./routes/dischargeRoutes');
+const analyticsRoutes= require("./routes/analyticsRoutes");
 const app = express();
 const cors = require('cors');
 
@@ -34,6 +35,7 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.log(err));
 
 app.use('/api/admin', adminRoutes);
+app.use('/api/analytics', analyticsRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/discharge', dischargeRoutes);
 app.get("/api/ping", (req, res) => {
