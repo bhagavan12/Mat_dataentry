@@ -108,7 +108,7 @@ exports.filterMaterials = async (req, res) => {
           data: [
             { $sort: { timestamp: -1 } }, // Sort by timestamp descending
             { $skip: (Number(page) - 1) * limit },
-            { $limit: limit },
+            // { $limit: limit },
           ],
           totalCount: [{ $count: "count" }],
         },
@@ -123,7 +123,7 @@ exports.filterMaterials = async (req, res) => {
       page: Number(page),
       pageSize: limit,
       totalRows: totalCount,
-      totalPages: Math.ceil(totalCount / limit),
+      totalPages: 1,
     });
   } catch (error) {
     console.error(error);
@@ -275,7 +275,7 @@ exports.filterDischarges = async (req, res) => {
           data: [
             { $sort: { timestamp: -1 } },
             { $skip: (Number(page) - 1) * limit },
-            { $limit: limit },
+            // { $limit: limit },
           ],
           totalCount: [{ $count: "count" }],
         },
@@ -290,7 +290,7 @@ exports.filterDischarges = async (req, res) => {
       page: Number(page),
       pageSize: limit,
       totalRows: totalCount,
-      totalPages: Math.ceil(totalCount / limit),
+      totalPages: 1,
     });
   } catch (error) {
     console.error(error);

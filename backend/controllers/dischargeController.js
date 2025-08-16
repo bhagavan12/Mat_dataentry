@@ -28,12 +28,12 @@ exports.getPossibleSowInputs = async (req, res) => {
   try {
     const { furnaceSize } = req.query;
 
-    const oneHourAgo = new Date(Date.now() - 75 * 60000); // 1hr 15min ago
+    const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000);
 
     const entries = await Material.find({
       furnaceSize,
       outputStatus: false,
-      timestamp: { $lte: new Date(), $gte: oneHourAgo }
+      timestamp: { $lte: new Date(), $gte: twelveHoursAgo  }
     }).sort({ timestamp: 1 }).populate('employee', 'name');; // oldest first
 
     const preferredId = entries.length ? entries[0]._id : null;
